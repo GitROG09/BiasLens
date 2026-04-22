@@ -1,0 +1,52 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email"]
+    },
+    "Analysis": {
+      "title": "Bias Analysis",
+      "description": "Stored cognitive bias analysis results",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "statement": { "type": "string" },
+        "metadata": { "type": "string" },
+        "domain": { "type": "string" },
+        "sensitivity": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "results": {
+          "type": "object",
+          "properties": {
+            "intensity": { "type": "object" },
+            "structuralMap": { "type": "object" },
+            "feedback": { "type": "object" },
+            "balancedRewrite": { "type": "string" },
+            "reflectionPrompts": { "type": "array" }
+          }
+        }
+      },
+      "required": ["userId", "statement", "timestamp", "results"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Private user profile data"
+    },
+    "/analyses/{analysisId}": {
+      "schema": "Analysis",
+      "description": "Collection of previous bias analyses"
+    }
+  }
+}

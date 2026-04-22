@@ -20,7 +20,7 @@ export default function Results() {
       statistician: "Sample size of cited precedents is N=1. The correlation coefficient between the proposed metric and recession indicators is only 0.42. The confidence interval presented is too narrow for macroeconomic forecasting.",
       neutralJudge: "While the concern regarding taxation impact is valid, the conclusion is overstated. The author relies heavily on slippery-slope logic. A balanced view requires acknowledging the multi-variate nature of economic shifts."
     },
-    balancedRewrite: "The implementation of the new economic policy introduces variables that could impact corporate hiring practices. If companies respond to increased taxation by tightening budgets, there is a potential risk of rising unemployment, which historically correlates with a reduction in consumer spending. Consequently, analysts should monitor these indicators closely, as they may increase the likelihood of an economic downturn in the coming quarters, assuming no counter-balancing government interventions.",
+    unbiasedSuggestion: "The implementation of the new economic policy introduces variables that could impact corporate hiring practices. Based on the multi-agent analysis, it is recommended to conduct a localized pilot study or an industry-specific risk assessment to validate the correlation between taxation shifts and immediate employment decline in the current market environment, rather than relying on historical N=1 precedents. Decision-makers should seek independent third-party economic modeling that accounts for potential counter-balancing government reinvestment strategies.",
     reflectionPrompts: [
       "How might this analysis change if the source material was published by a left-leaning think tank versus a right-leaning one?",
       "Identify one piece of contradictory evidence that the original author likely encountered but chose to omit.",
@@ -165,7 +165,7 @@ export default function Results() {
             color: var(--muted);
         }
 
-        .rewrite {
+        .suggestion {
             font-size: 18px;
             background: rgba(14, 165, 233, 0.1);
             padding: 24px;
@@ -239,8 +239,8 @@ export default function Results() {
         </section>
 
         <section class="section">
-            <h2>Balanced Intelligence (Rewrite)</h2>
-            <div class="rewrite">${results.balancedRewrite}</div>
+            <h2>Strategic recommendation</h2>
+            <div class="suggestion">${results.unbiasedSuggestion}</div>
         </section>
 
         <div class="footer">
@@ -400,20 +400,25 @@ export default function Results() {
           />
         </section>
 
-        {/* Balanced Rewrite */}
+        {/* Strategic Recommendation */}
         <section className="col-span-12 lg:col-span-8 bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-xl">
           <div className="p-8 border-b border-slate-800/50 flex justify-between items-center">
             <div>
-              <h2 className="text-xl font-bold text-white">Balanced Rewrite</h2>
-              <p className="text-xs text-slate-500 mt-1">AI-generated version neutralizing detected bias.</p>
+              <h2 className="text-xl font-bold text-white">Strategic Recommendation</h2>
+              <p className="text-xs text-slate-500 mt-1">Synthesized multi-agent logic for unbiased decision support.</p>
             </div>
-            <button className="text-sky-500 hover:bg-sky-500/10 p-2 rounded transition-colors">
+            <button 
+              className="text-sky-500 hover:bg-sky-500/10 p-2 rounded transition-colors"
+              onClick={() => {
+                navigator.clipboard.writeText(results.unbiasedSuggestion);
+              }}
+            >
               <Copy className="w-5 h-5" />
             </button>
           </div>
           <div className="p-8">
             <p className="text-lg text-slate-200 leading-relaxed selection:bg-sky-500/30">
-              {results.balancedRewrite}
+              {results.unbiasedSuggestion}
             </p>
           </div>
         </section>

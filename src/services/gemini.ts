@@ -22,7 +22,7 @@ export interface AnalysisResults {
     statistician: string;
     neutralJudge: string;
   };
-  balancedRewrite: string;
+  unbiasedSuggestion: string;
   reflectionPrompts: string[];
 }
 
@@ -45,14 +45,14 @@ Simulate three internal experts:
 2. The Empirical Statistician: Evaluates the quantitative validity and sample sizes.
 3. The Neutral Ethical Arbiter: Identifies hidden cultural or social bias.
 
-PHASE 3: OBJECTIVE REWRITE
-Generate a "Zero-Bias" alternative that preserves the original intent but removes all subjective qualifiers, emotional loading, and logical shortcuts.
+PHASE 3: STRATEGIC ACTIONABLE OUTPUT
+Synthesize the critiques from the three internal experts into a singular "Unbiased Strategic Suggestion." This should not merely be a rewrite, but a high-level recommendation on how to proceed with the decision-making process, accounting for the detected skews and logical gaps.
 
 OUTPUT SCHEMA:
 - intensity: Exact percentages (0-100) for Political, Emotional, Confirmation, and Credibility skews.
 - structuralMap: The core claim, the logical reasoning path (step-by-step), underlying assumptions, and missing evidence.
 - feedback: Condensed critiques from the three internal experts.
-- balancedRewrite: The neutralized version of the text.
+- unbiasedSuggestion: A synthesized, high-level recommendation for the user based on the full multi-agent analysis.
 - reflectionPrompts: 3 deep-reasoning questions that force the user to confront their own potential biases.
 
 EXAMPLE OF HIGH-ACCURACY ANALYSIS:
@@ -72,9 +72,6 @@ Sensitivity Weighting: ${sensitivity}`;
     config: {
       systemInstruction: systemPrompt,
       responseMimeType: "application/json",
-      thinkingConfig: {
-        includeThinkingProcess: true // Enable internal reasoning for maximum precision
-      },
       responseSchema: {
         type: Type.OBJECT,
         properties: {
@@ -107,10 +104,10 @@ Sensitivity Weighting: ${sensitivity}`;
             },
             required: ["devilsAdvocate", "statistician", "neutralJudge"]
           },
-          balancedRewrite: { type: Type.STRING },
+          unbiasedSuggestion: { type: Type.STRING },
           reflectionPrompts: { type: Type.ARRAY, items: { type: Type.STRING } },
         },
-        required: ["intensity", "structuralMap", "feedback", "balancedRewrite", "reflectionPrompts"]
+        required: ["intensity", "structuralMap", "feedback", "unbiasedSuggestion", "reflectionPrompts"]
       }
     }
   });

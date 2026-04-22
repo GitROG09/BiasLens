@@ -107,15 +107,15 @@ export default function Analysis() {
       </AnimatePresence>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        <div className="md:col-span-8 flex flex-col gap-8">
-          <header className="mb-4">
+        <div className="md:col-span-12 flex flex-col gap-8">
+          <header className="mb-4 text-center">
             <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Initiate Analysis Vector</h1>
-            <p className="text-slate-400 max-w-2xl leading-relaxed">
+            <p className="text-slate-400 max-w-2xl mx-auto leading-relaxed">
               Enter the decision parameters below. The analytic engine will process the inputs through the defined bias detection frameworks to isolate cognitive skew.
             </p>
           </header>
 
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-lg p-8 relative overflow-hidden shadow-2xl">
+          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-lg p-8 relative overflow-hidden shadow-2xl max-w-4xl mx-auto w-full">
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-sky-500/40 to-transparent"></div>
             <div className="absolute top-0 left-0 h-full w-[1px] bg-gradient-to-b from-sky-500/40 to-transparent"></div>
             
@@ -167,65 +167,7 @@ export default function Analysis() {
             </form>
           </div>
         </div>
-
-        <div className="md:col-span-4 flex flex-col gap-8">
-          <div className="bg-[#121c2f]/80 backdrop-blur-xl border border-slate-800 rounded-lg p-8 h-full flex flex-col relative overflow-hidden shadow-xl">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/5 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <h3 className="text-xl font-bold text-white flex items-center gap-3 mb-8 border-b border-slate-800 pb-4">
-              <Microscope className="text-sky-500 w-6 h-6" />
-              Protocol Framework
-            </h3>
-
-            <div className="relative flex-1">
-              <div className="absolute left-[19px] top-4 bottom-4 w-[2px] bg-slate-800/50"></div>
-              
-              <div className="flex flex-col gap-10 relative z-10">
-                <ProtocolStep 
-                  number="01" 
-                  title="Raw Input Intake" 
-                  desc="System parses decision statement and standardizes syntax for analysis." 
-                  icon={<FileText className="w-5 h-5" />}
-                />
-                <ProtocolStep 
-                  number="02" 
-                  title="Bias Detection" 
-                  desc="Scans against 40+ cognitive heuristics including Anchoring, Confirmation, and Status Quo biases." 
-                  icon={<Shield className="w-5 h-5" />}
-                />
-                <ProtocolStep 
-                  number="03" 
-                  title="Cognitive Firewall" 
-                  desc="Isolates problematic logic vectors and assigns severity indices." 
-                  icon={<Shield className="text-orange-400 w-5 h-5" />}
-                />
-                <ProtocolStep 
-                  number="04" 
-                  title="Optimal Rewrite" 
-                  desc="Generates objective, debiased alternatives while preserving core intent." 
-                  icon={<CheckCircle className="w-5 h-5" />}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </motion.div>
-  );
-}
-
-function ProtocolStep({ number, title, desc, icon }: { number: string, title: string, desc: string, icon: React.ReactNode }) {
-  return (
-    <div className="flex gap-6 group">
-      <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 z-10 group-hover:border-sky-500 transition-colors">
-        <div className="text-slate-400 group-hover:text-sky-400 transition-colors">
-          {icon}
-        </div>
-      </div>
-      <div className="pt-1">
-        <h4 className="text-xs font-bold text-white mb-1 font-mono uppercase tracking-widest">{number}. {title}</h4>
-        <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
-      </div>
-    </div>
   );
 }

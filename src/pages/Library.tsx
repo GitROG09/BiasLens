@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Database, Calendar, Eye, Trash2, ArrowRight, Microscope } from 'lucide-react';
@@ -46,13 +46,49 @@ export default function Library() {
     fetchAnalyses();
   }, [user]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Initiating delete for document ID:", id);
     if (!confirm("Are you sure you want to delete this analysis permanently?")) return;
     try {
-      await deleteDoc(doc(db, 'analyses', id));
-      setAnalyses(analyses.filter(a => a.id !== id));
+      // Use collection reference to create document reference for absolute certainty
+      const analysesCol = collection(db, 'analyses');
+      const docRef = doc(analysesCol, id);
+      console.log("Delete target path:", docRef.path);
+      
+      await deleteDoc(docRef);
+      console.log("Firestore delete operation completed");
+      
+      alert("Success: Analysis purged from archive.");
+      setAnalyses(prev => prev.filter(a => a.id !== id));
     } catch (err) {
-      console.error("Error deleting analysis:", err);
+      console.error("FIREBASE DELETE FAILURE:", err);
+      alert(`Delete rejected by server: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleClearAll = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Initiating bulk clear all archive");
+    if (!confirm("CRITICAL ACTION: This will permanently purge your entire intelligence vault. This cannot be undone. Proceed?")) return;
+    
+    setLoading(true);
+    try {
+      console.log(`Deleting ${analyses.length} items...`);
+      const deletePromises = analyses.map(a => {
+        console.log(`Scheduling delete for: ${a.id}`);
+        return deleteDoc(doc(db, 'analyses', a.id));
+      });
+      await Promise.all(deletePromises);
+      console.log("Bulk delete successful");
+      setAnalyses([]);
+    } catch (err) {
+      console.error("Critical Error during bulk deletion:", err);
+      alert(`Mass deletion failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,9 +123,20 @@ export default function Library() {
           </div>
           <h1 className="text-4xl font-black text-white uppercase tracking-tighter">Your Intelligence Library</h1>
         </div>
-        <div className="text-right">
-          <div className="text-3xl font-mono text-slate-700">{analyses.length.toString().padStart(2, '0')}</div>
-          <div className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Total Reports</div>
+        <div className="flex flex-col items-end gap-4">
+          <div className="text-right">
+            <div className="text-3xl font-mono text-slate-700">{analyses.length.toString().padStart(2, '0')}</div>
+            <div className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Total Reports</div>
+          </div>
+          {analyses.length > 0 && (
+            <button 
+              onClick={(e) => handleClearAll(e)}
+              className="text-[10px] text-red-500/60 hover:text-red-500 font-bold uppercase tracking-widest flex items-center gap-1 transition-colors"
+            >
+              <Trash2 className="w-3 h-3" />
+              Clear All Archive
+            </button>
+          )}
         </div>
       </div>
 
@@ -120,12 +167,13 @@ export default function Library() {
               whileHover={{ scale: 1.01, borderColor: '#0ea5e9' }}
               className="bg-slate-900 border border-slate-800 rounded-lg p-6 transition-all group overflow-hidden relative"
             >
-              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute top-2 right-2 z-20">
                 <button 
-                  onClick={() => handleDelete(analysis.id)}
-                  className="text-slate-500 hover:text-red-500 transition-colors p-2 bg-slate-950 rounded border border-slate-800"
+                  onClick={(e) => handleDelete(e, analysis.id)}
+                  className="text-slate-600 hover:text-red-500 transition-colors p-2 bg-slate-950/80 backdrop-blur-sm rounded border border-slate-800/50 hover:border-red-500/50"
+                  title="Delete analysis"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
 

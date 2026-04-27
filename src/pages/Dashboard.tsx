@@ -22,13 +22,9 @@ export default function Dashboard() {
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
-            Cognitive Bias Detection <br/>
-            <span className="text-slate-400">& Decision Reasoning Intelligence</span>
+            BiasLens <br/>
+            <span className="text-slate-400 font-medium">Bias-aware decision intelligence</span>
           </h1>
-          
-          <p className="text-lg text-slate-400 mb-8 max-w-2xl leading-relaxed">
-            Deploy advanced analytic models to parse subjective data, identify logical fallacies, and ensure objective decision intelligence across your organization's unstructured text streams.
-          </p>
           
           <div className="flex items-center gap-4">
             <Link to="/analysis" className="bg-sky-500 text-slate-950 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded hover:bg-sky-400 transition-colors flex items-center gap-2">
